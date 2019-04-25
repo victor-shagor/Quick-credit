@@ -1,0 +1,321 @@
+
+body{
+ margin: 0;
+ font-family: "Circular Std";
+ background-color: #F3F5F7
+}
+
+ #navbar{
+ 
+ overflow: hidden;
+ height: 60px;
+ width: 100%
+ 
+} 
+#navbar img{
+ float: left;
+ height: 50px;
+ width: 150px;
+ margin-left: 20px;
+ margin-top:10px;
+ 
+
+}
+#navbar p{
+ float:right;
+ margin-right: 20px;
+ margin-top: 10px
+}
+
+
+
+#sidebar{
+ border-right: white solid 1px ;
+ margin-top: 2%; 
+ margin-left: 5px;
+font-size: 15px;
+font-weight: 300;
+line-height: 20px;
+float:left;
+font-family: "Circular Std";
+
+
+}
+#sidebar h3, h4{
+ margin-left: 20px;
+ color:#2274F0
+}
+
+
+
+
+#sidebar a{
+ text-decoration: none;
+ color: black;
+ padding: 10px;
+
+
+}
+#sidebar a:hover{
+ 
+ color: white;
+
+}
+#board h2{
+ margin-left: 20%;
+ margin-top: 5%
+
+}
+#dashboard2{
+ grid-gap: 2px;
+ display:grid;
+ grid-template-columns: repeat(3, 1fr);
+ margin-top: 3%;
+ 
+}
+#dashboard4{
+ grid-gap: 2px;
+ display:grid;
+ grid-template-columns: repeat(2, 1fr);
+ margin-top: 3%;
+ 
+}
+#dash{
+ height: 132px;
+ width: 230px;
+ border-radius: 5px;
+ background-color: #FFF;
+ border: 1px solid #EEECEC;
+ text-align: center;
+ margin-left: 40px;
+}
+#message{
+ box-sizing: border-box;
+ height: 50px;
+ width: 300px;
+ border-radius: 5px;
+ background-color: #F4F8FF;
+ border: 2px solid #8CBAFF;
+ margin-left: 43%;
+ text-align: center;
+ color: #2274F0
+}
+
+#box{
+ 
+  box-sizing: border-box;
+  height: 400px;
+  width: 1000px;
+  border-radius: 5px;
+  background-color: #FFF;
+  border: 1px solid #EEECEC;
+  margin-left: 20%;
+  flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ text-align: center;
+
+
+}
+#applyForm{
+ margin-top: 10%;
+}
+#postForm{
+ margin-top: 10%;
+}
+
+#input{
+ height: 20px;
+ width:30%;
+ padding: 5px;
+ margin: 5px;
+ margin-top: 10px;
+ border-radius: 5px;
+ border: 2px solid #2274F0;
+
+
+} 
+
+#repaymentduration{
+ height: 35px;
+ width:31%;
+ padding: 5px;
+ margin: 5px;
+ margin-top: 10px;
+ border-radius: 5px;
+ border: 2px solid #2274F0;
+
+
+} 
+ button{
+ background-color: #2274F0;
+ color:white;
+ height:40px;
+ width:15%;
+ border:none;
+ margin: 10px;
+ margin-left: 20%;
+ padding: 5px;
+ text-align: center;
+ border-radius: 20px;
+
+}
+button:hover{
+ background-color: #F2FBFF;
+ color: black;
+}
+#verify{
+ background-color: #FFF;
+ border: 1px solid #D2D2D2;
+ color:black;
+ width:100%;
+ border:none;
+ padding: 5px;  
+ text-align: center;
+ border-radius: 20px;
+
+}
+#verify:hover{
+ background-color: #2274F0;
+ color: white;
+}
+#approval{
+ background-color: #FFF;
+ border: 1px solid black;
+ color:black;
+ width:50%;
+ border:none;
+ padding: 5px;  
+ text-align: center;
+ border-radius: 20px;
+
+}
+#approval:hover{
+ background-color: #2274F0;
+ color: white;
+}
+
+
+
+#view{
+ margin-left:25%;
+ margin-right:15%;
+ margin-top: 5%;
+ text-align: center;
+ font-size: 13px
+ 
+}
+#clients h3{
+ margin-left: 20% 
+
+}
+#repaid h3{
+ margin-left: 20% 
+
+}
+#running h3{
+ margin-left: 20% 
+
+}
+#loans h3{
+ margin-left: 20% 
+
+}
+#transaction h3{
+ margin-left: 20% 
+
+}
+#loans h3{
+ margin-left: 20% 
+
+}
+
+
+th {
+ 
+ color: #2274F0;;
+}
+
+table {
+ border-collapse: collapse;
+ width: 100%;
+}
+
+th, td {
+ padding: 10px;
+ text-align: center;
+ border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {background-color: white;}
+
+#clients{
+ display: none;
+}
+#loans{
+ display: none;
+}
+#running{
+ display: none;
+}
+#repaid{
+ display: none;
+}
+#transaction{
+ display:none
+}
+#container{
+ display:none
+}
+
+
+ @media (max-width: 876px){
+ body{
+  font-size: 12px;
+ }
+ #sidebar{
+  width: 30%;
+  text-align: left
+ }
+
+ #sidebar ul li{
+  list-style:none;
+  
+ }
+ #sidebar a{
+  color: black;
+  font-size: 11px;
+ 
+ }
+
+ #view{
+  width:60%;
+  margin-left: 40%;
+  margin-top: 0;
+ }
+ 
+ #container{
+  width:60%;
+  margin-top: 1px;
+  margin-left: 35%;
+  margin-right: 5%
+ 
+ 
+  }
+  #navbar{
+   position:fixed
+  }
+ header{
+  margin: 0;
+  height: 100px
+  
+ }
+ 
+
+
+
+} 
+
+
+
+
