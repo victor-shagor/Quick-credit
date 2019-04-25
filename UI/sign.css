@@ -1,0 +1,104 @@
+body{
+ background: url("sign.jpg") no-repeat center/cover;
+ height: 100vh;
+ margin: 0;
+ font-family: "Circular Std";
+ color: white;
+}
+
+
+
+#navbar{
+ 
+ overflow: hidden;
+ height: 60px;
+ width: 100%;
+ position: fixed;
+ top:0
+}
+#navbar img{
+ float: left;
+ height: 60px;
+ width: 180px;
+ margin-left: 20px;
+
+}
+ 
+
+
+ #container{
+  margin-left:40%;
+  margin-right:10%;
+  margin-top: 15%;
+  padding:10px;
+  border:20px;
+  color:white;
+ }
+ 
+
+#input{
+ height: 20px;
+ width:35%;
+ padding: 5px;
+ margin: 5px;
+ margin-top: 10px;
+ border-radius: 5px;
+ border: 2px solid #2274F0;
+}
+
+ button{
+ background-color:  #2274F0;
+ color:white;
+ height:38px;
+ width:15%;
+ border:none;
+ margin-top: 10px;
+ margin-left: 13%;
+ padding: 5px;
+ text-align: center;
+ border-radius: 20px;
+
+}
+
+ button:hover{
+ background-color: #F2FBFF;
+ color: black;
+}
+#down{
+ margin-left: 5%;
+}
+
+
+
+#down a{
+ text-decoration: none;
+ color: white;
+ padding: 5px;
+ margin: 5px;
+ display: inline-block;
+ background-color:#2274F0; 
+}
+#down a:hover{
+ background-color: white;
+ color: black;
+}
+
+
+
+
+@media (max-width:876px){
+ 
+ 
+ #container{
+  margin-left: 30%;
+  margin-right: 10%;
+ }
+ #input{
+  width:70%
+ }
+ #sign{
+  margin-left: 10%;
+ }
+}
+
+
