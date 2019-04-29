@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ <title>Welcome</title>
+</head>
+<link rel="stylesheet" href="loginpage.css" type="text/css">
+
+<body>
+    <header>
+        <nav id="navbar">
+            <a href="index.html"><img src="logo.png"></a>
+         
+       
+       </header>
+      <div id= "sidebar">
+        <h3>Dashboard</h3><br>
+        <h4>LOANS</h4>
+       <ul>
+        <li id="liapply"><a href=#>Apply for a Loan</a></li>
+        <li id="litransact"><a href=#>Transaction History</a></li><br><br><br><br><br><br>
+        <li id="log"><a href="index.html">Log out</a></li>
+        
+       </ul>
+      </div>
+      <div id="board">
+          <h2>Dashboard</h2>
+        <div id="dashboard2">
+          <div id="dash">
+            <h1>681</h1>
+            <p>loan requests</p>
+          </div>
+          <div id="dash">
+              <h1>0.00</h1>
+              <p>Current Balance</p>
+            </div>
+            
+        </div>
+      </div>
+      <div id= "container">
+          <h2>Apply For a Loan</h2>
+      <div id="message">
+        <p>Enter the loan request details below</p>
+      </div>
+      <div id= "box">
+        <form id="applyForm">
+          <label for="input">Amount</label>
+          <input id="input" type="number" placeholder="Amount"><br>
+          <label for="repaymentduration">Tenor &nbsp &nbsp</label>
+         <select id="repaymentduration">
+          <option value="2 months">2 months</option>
+          <option value="2 months">6 months</option>
+          <option value="2 months">8 months</option>
+          <option value="2 months">10 months</option>
+          <option value="2 months">12 months</option>
+         </select><br><br>
+        </form>
+         <button id="logIn">Apply</button>
+        </div>
+      </div>
+      <div id="transaction">
+          <h3>Repayment History</h3>
+        <div id="view">
+          
+        <table>
+        <tr>
+         <th>Loan date</th>
+         <th>Amount</th>
+         <th>Tenor</th>
+         <th>repaid date</th>
+        </tr>
+        <tr>
+          <td>12/01/2018</td>
+          <td>500,000</td>
+          <td>12months</td>
+          <td>10/01/2019</td>
+         </tr>
+         <tr>
+           <td>12/01/2018</td>
+           <td>500,000</td>
+           <td>12months</td>
+           <td>10/01/2019</td>
+          </tr>
+          <tr>
+            <td>12/01/2018</td>
+            <td>500,000</td>
+            <td>12months</td>
+            <td>10/01/2019</td>
+           </tr>
+       </table>
+      </div>
+    </div>
+      
+    
+
+      
+      <script>
+        document.querySelector('#liapply').addEventListener('click' , showApply)
+        document.querySelector('#litransact').addEventListener('click' , showTransact)
+        function showApply  (){
+          const apply = document.querySelector('#container')
+          const transact =document.querySelector('#transaction')
+          const board = document.querySelector('#board')
+          board.style.display = "none";
+          apply.style.display = "block";
+          transact.style.display = "none";
+          
+          
+          }
+          function showTransact  (){
+          const apply = document.querySelector('#container')
+          const transact =document.querySelector('#transaction')
+          const board = document.querySelector('#board')
+          board.style.display = "none";
+          apply.style.display = "none";
+          transact.style.display = "block";
+          
+          
+          }
+        
+      </script>
+    </body>
+
+
+</html>
