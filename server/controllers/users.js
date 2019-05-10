@@ -26,6 +26,15 @@ const User = {
   },
   login(req, res) {
     const email = db.find(user => user.email === (req.body.email));
+    email.token = Helper.generateToken(email.id);
+    return res.status(200).send({
+      status: 200,
+      data: email,
+    });
+  },
+  verify(req, res) {
+    const email = db.find(user => user.email === req.params.email);
+    email.status = 'verified';
     return res.status(200).send({
       status: 200,
       data: email,
