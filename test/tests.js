@@ -11,7 +11,7 @@ describe('users', () => {
     chai.request(app)
       .post('/api/v1/auth/signup')
       .send({
-        firstName: 'abiola', lastName: 'ojo', email: 'ojo@gmail.com', password: 'oladimeji1', address: 'no 2,lagos',
+        firstName: 'abiola', lastName: 'ojo', email: 'ojo1@gmail.com', password: 'oladimeji1', address: 'no 2,lagos',
       })
       .end((err, res) => {
         res.should.have.status(201);
@@ -33,7 +33,7 @@ describe('users', () => {
         firstName: '', lastName: 'ojo', email: 'ojo@gmail.com', password: '123', address: 'no 2,lagos',
       })
       .end((err, res) => {
-        res.should.have.status(422);
+        res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
         done();
@@ -43,10 +43,10 @@ describe('users', () => {
     chai.request(app)
       .post('/api/v1/auth/signup')
       .send({
-        firstName: 'abiola', lastName: '', email: 'ojo@gmail.com', password: '123', address: 'no 2,lagos',
+        firstName: 'abiola', lastName: '', email: 'ojo1@gmail.com', password: '123', address: 'no 2,lagos',
       })
       .end((err, res) => {
-        res.should.have.status(422);
+        res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
 
@@ -60,7 +60,7 @@ describe('users', () => {
         firstName: 'abiola', lastName: 'ojo', email: '', password: '123', address: 'no 2,lagos',
       })
       .end((err, res) => {
-        res.should.have.status(422);
+        res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
         done();
@@ -74,7 +74,7 @@ describe('users', () => {
         firstName: 'abiola', lastName: '', email: 'ojo@gmail.com', password: '', address: 'no 2,lagos',
       })
       .end((err, res) => {
-        res.should.have.status(422);
+        res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
         done();
@@ -88,7 +88,7 @@ describe('users', () => {
         firstName: 'abiola', lastName: '', email: 'ojo@gmail.com', password: '123', address: '',
       })
       .end((err, res) => {
-        res.should.have.status(422);
+        res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
         done();
@@ -99,7 +99,7 @@ describe('users', () => {
     chai.request(app)
       .post('/api/v1/auth/signin')
       .send({
-        email: 'ojo@gmail.com', password: 'oladimeji1',
+        email: 'ojo@gmail.com', password: 'olo1',
       })
       .end((err, res) => {
         res.should.have.status(200);
@@ -118,7 +118,7 @@ describe('users', () => {
         email: '', password: '123',
       })
       .end((err, res) => {
-        res.should.have.status(422);
+        res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
         done();
@@ -128,12 +128,26 @@ describe('users', () => {
     chai.request(app)
       .post('/api/v1/auth/signup')
       .send({
-        email: 'abiola@gmail.com', password: '123',
+        email: 'abiola@gmail.com', password: '',
       })
       .end((err, res) => {
-        res.should.have.status(422);
+        res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
+        done();
+      });
+  });
+  it('should not be able to change user status without token', (done) => {
+    chai.request(app)
+      .patch('/api/v1/users/dayo@gmail.com/verify')
+      .send({
+        status: 'verified',
+      })
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('Access Denied, Token is not provided')
         done();
       });
   });
