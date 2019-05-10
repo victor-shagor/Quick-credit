@@ -4,12 +4,12 @@ import validate from '../middleware/validation';
 
 const userRouter = express.Router();
 
-const { verifyInput } = validate;
+const { verifyInput, verifyLogin } = validate;
 const { create, login } = User;
 
 
-userRouter.route('/auth/signup/api/v1').post(verifyInput,
+userRouter.route('/api/v1/auth/signup').post(verifyInput,
   create);
-
+userRouter.route('/api/v1/auth/signin').post(verifyLogin, login);
 
 export default userRouter;
