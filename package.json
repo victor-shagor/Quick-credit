@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "env:DEBUG='*';babel-node ./app.js",
-    "dev-start": "babel-node ./app.js",
+    "start": "babel-node ./app.js",
     "lint": "eslint --init",
     "test": "nyc mocha --require @babel/register test/tests.js --exit",
     "coverall": "./node_modules/.bin/nyc npm test && nyc report --reporter=text-lcov | coveralls"
@@ -29,14 +29,14 @@
     "express-validator": "^5.3.1",
     "jsonwebtoken": "^8.5.1",
     "travis-ci": "^2.2.0",
-    "validator": "^10.11.0"
-  },
-  "devDependencies": {
+    "validator": "^10.11.0",
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
     "@babel/node": "^7.0.0",
     "@babel/preset-env": "^7.4.4",
-    "babel-register": "^6.26.0",
+    "babel-register": "^6.26.0"
+  },
+  "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "coveralls": "^3.0.3",
