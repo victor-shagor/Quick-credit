@@ -24,5 +24,12 @@ const User = {
       data,
     });
   },
+  login(req, res) {
+    const email = db.find(user => user.email === (req.body.email));
+    return res.status(200).send({
+      status: 200,
+      data: email,
+    });
+  },
 };
 export default User;
