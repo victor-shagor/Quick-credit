@@ -9,7 +9,7 @@ cache:
 
 env:
   global:
-    - CC_TEST_REPORTER_ID=23f2b88a27c5f4574a34051561ef6d2351ce9fe0462efb161e16317a3cec9779
+    - CC_TEST_REPORTER_ID=7147b6b6dc0ab3fa12c9ef6a8ece89155b92dddfb8cdb6aab258e48a28cdd1c1
     - SECRET=sagoro
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
