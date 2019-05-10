@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "env:DEBUG='*';babel-node ./app.js",
-    "start": "babel-node ./app.js",
+    "dev-start": "babel-node ./app.js",
     "lint": "eslint --init",
     "test": "nyc mocha --require @babel/register test/tests.js --exit",
     "coverall": "./node_modules/.bin/nyc npm test && nyc report --reporter=text-lcov | coveralls"
