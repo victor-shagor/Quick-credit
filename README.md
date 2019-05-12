@@ -45,7 +45,7 @@ Template is hosted at https://victor-shagor.github.io/Quick-credit/UI/
 
 ### Installing/Run locally
 - Make sure you have `nodejs`, `postgres` installed.
-- Clone or fork repo :man_shrugging:
+- Clone repo 
 
   ```bash
     - git clone https://github.com/victor-shagor/Quick-credit.git
