@@ -452,63 +452,63 @@ describe('users', () => {
         done();
       });
   });
-  // it('should approve loan application', (done) => {
-  //   chai.request(app)
-  //     .patch('/api/v1/loans/1')
-  //     .send({
-  //       status: 'approved',
-  //     })
-  //     .set({
-  //       'x-access-token': Helper.generateToken(1),
-  //     })
-  //     .end((err, res) => {
-  //       res.should.have.status(200);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('data');
-  //       res.body.data.should.have.property('firstName');
-  //       res.body.data.should.have.property('lastName');
-  //       res.body.data.should.have.property('email');
-  //       res.body.data.should.have.property('loanId');
-  //       res.body.data.should.have.property('amount');
-  //       res.body.data.should.have.property('status');
-  //       res.body.data.should.have.property('balance');
-  //       done();
-  //     });
-  // });
-  // it('should not approve loan application', (done) => {
-  //   chai.request(app)
-  //     .patch('/api/v1/loans/10')
-  //     .send({
-  //       status: 'approved',
-  //     })
-  //     .set({
-  //       'x-access-token': Helper.generateToken(1),
-  //     })
-  //     .end((err, res) => {
-  //       res.should.have.status(400);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('error');
-  //       res.body.error.should.equal('loan id is not in the database');
-  //       done();
-  //     });
-  // });
-  // it('should not approve loan application', (done) => {
-  //   chai.request(app)
-  //     .patch('/api/v1/loans/3')
-  //     .send({
-  //       status: 'approved',
-  //     })
-  //     .set({
-  //       'x-access-token': Helper.generateToken(1),
-  //     })
-  //     .end((err, res) => {
-  //       res.should.have.status(400);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('error');
-  //       res.body.error.should.equal('Loan as already being approved');
-  //       done();
-  //     });
-  // });
+  it('should approve loan application', (done) => {
+    chai.request(app)
+      .patch('/api/v1/loans/1')
+      .send({
+        status: 'approved',
+      })
+      .set({
+        'x-access-token': Helper.generateToken(1),
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('firstName');
+        res.body.data.should.have.property('lastName');
+        res.body.data.should.have.property('email');
+        res.body.data.should.have.property('loanId');
+        res.body.data.should.have.property('amount');
+        res.body.data.should.have.property('status');
+        res.body.data.should.have.property('balance');
+        done();
+      });
+  });
+  it('should not approve loan application', (done) => {
+    chai.request(app)
+      .patch('/api/v1/loans/10')
+      .send({
+        status: 'approved',
+      })
+      .set({
+        'x-access-token': Helper.generateToken(1),
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('loan id is not in the database');
+        done();
+      });
+  });
+  it('should not approve loan application', (done) => {
+    chai.request(app)
+      .patch('/api/v1/loans/3')
+      .send({
+        status: 'approved',
+      })
+      .set({
+        'x-access-token': Helper.generateToken(1),
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('Loan as already being approved');
+        done();
+      });
+  });
   // it('should post a repayment', (done) => {
   //   chai.request(app)
   //     .post('/api/v1/loans/1/repayment')
