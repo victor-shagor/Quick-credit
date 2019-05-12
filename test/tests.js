@@ -319,48 +319,48 @@ describe('users', () => {
         done();
       });
   });
-  // it('should get loan repayment by id', (done) => {
-  //   chai.request(app)
-  //     .get('/api/v1/loans/1/repayments')
-  //     .set({
-  //       'x-access-token': Helper.generateToken(1),
-  //     })
-  //     .end((err, res) => {
-  //       res.should.have.status(200);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('data');
-  //       res.body.data.should.have.property('loanId');
-  //       res.body.data.should.have.property('amount');
-  //       res.body.data.should.have.property('paidAmount');
-  //       res.body.data.should.have.property('balance');
-  //       done();
-  //     });
-  // });
-  // it('should not be able get loan repayment by id without a correct id', (done) => {
-  //   chai.request(app)
-  //     .get('/api/v1/loans/5/repayments')
-  //     .set({
-  //       'x-access-token': Helper.generateToken(1),
-  //     })
-  //     .end((err, res) => {
-  //       res.should.have.status(400);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('error');
-  //       res.body.error.should.equal('id is not in the database');
-  //       done();
-  //     });
-  // });
-  // it('should not be able to get repayment without token', (done) => {
-  //   chai.request(app)
-  //     .get('/api/v1/loans/1/repayments')
-  //     .end((err, res) => {
-  //       res.should.have.status(401);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('error');
-  //       res.body.error.should.equal('Access Denied, Token is not provided');
-  //       done();
-  //     });
-  // });
+  it('should get loan repayment by id', (done) => {
+    chai.request(app)
+      .get('/api/v1/loans/1/repayments')
+      .set({
+        'x-access-token': Helper.generateToken(1),
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('loanId');
+        res.body.data.should.have.property('amount');
+        res.body.data.should.have.property('paidAmount');
+        res.body.data.should.have.property('balance');
+        done();
+      });
+  });
+  it('should not be able get loan repayment by id without a correct id', (done) => {
+    chai.request(app)
+      .get('/api/v1/loans/5/repayments')
+      .set({
+        'x-access-token': Helper.generateToken(1),
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('id is not in the database');
+        done();
+      });
+  });
+  it('should not be able to get repayment without token', (done) => {
+    chai.request(app)
+      .get('/api/v1/loans/1/repayments')
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('Access Denied, Token is not provided');
+        done();
+      });
+  });
   // it('should create a loan application', (done) => {
   //   chai.request(app)
   //     .post('/api/v1/loans')
