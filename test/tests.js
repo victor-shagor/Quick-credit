@@ -509,57 +509,57 @@ describe('users', () => {
         done();
       });
   });
-  // it('should post a repayment', (done) => {
-  //   chai.request(app)
-  //     .post('/api/v1/loans/1/repayment')
-  //     .send({
-  //       paidAmount: '5000',
-  //     })
-  //     .set({
-  //       'x-access-token': Helper.generateToken(1),
-  //     })
-  //     .end((err, res) => {
-  //       res.should.have.status(201);
-  //       res.body.should.have.property('data');
-  //       res.body.data.should.have.property('loanId');
-  //       res.body.data.should.have.property('amount');
-  //       res.body.data.should.have.property('paidAmount');
-  //       res.body.data.should.have.property('balance');
-  //       done();
-  //     });
-  // });
-  // it('should not post a repayment', (done) => {
-  //   chai.request(app)
-  //     .post('/api/v1/loans/10/repayment')
-  //     .send({
-  //       paidAmount: '5000',
-  //     })
-  //     .set({
-  //       'x-access-token': Helper.generateToken(1),
-  //     })
-  //     .end((err, res) => {
-  //       res.should.have.status(400);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('error');
-  //       res.body.error.should.equal('loanId is not in the database or loanId is not for a running loan');
-  //       done();
-  //     });
-  // });
-  // it('should not post a repayment', (done) => {
-  //   chai.request(app)
-  //     .post('/api/v1/loans/1/repayment')
-  //     .send({
-  //       paidAmount: '',
-  //     })
-  //     .set({
-  //       'x-access-token': Helper.generateToken(1),
-  //     })
-  //     .end((err, res) => {
-  //       res.should.have.status(400);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('error');
-  //       res.body.error.should.equal('paidAmount is required and it can only be a number');
-  //       done();
-  //     });
-  // });
+  it('should post a repayment', (done) => {
+    chai.request(app)
+      .post('/api/v1/loans/1/repayment')
+      .send({
+        paidAmount: '5000',
+      })
+      .set({
+        'x-access-token': Helper.generateToken(1),
+      })
+      .end((err, res) => {
+        res.should.have.status(201);
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('loanId');
+        res.body.data.should.have.property('amount');
+        res.body.data.should.have.property('paidAmount');
+        res.body.data.should.have.property('balance');
+        done();
+      });
+  });
+  it('should not post a repayment', (done) => {
+    chai.request(app)
+      .post('/api/v1/loans/10/repayment')
+      .send({
+        paidAmount: '5000',
+      })
+      .set({
+        'x-access-token': Helper.generateToken(1),
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('loanId is not in the database or loanId is not for a running loan');
+        done();
+      });
+  });
+  it('should not post a repayment', (done) => {
+    chai.request(app)
+      .post('/api/v1/loans/1/repayment')
+      .send({
+        paidAmount: '',
+      })
+      .set({
+        'x-access-token': Helper.generateToken(1),
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('paidAmount is required and it can only be a number');
+        done();
+      });
+  });
 });
