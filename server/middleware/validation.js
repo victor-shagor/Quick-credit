@@ -147,5 +147,52 @@ const validate = {
     }
     return next();
   },
+  verifyFields(req, res, next) {
+    const requiredFields = ['firstName', 'lastName', 'email', 'tenor', 'amount'];
+    const missingFields = [];
+    requiredFields.forEach((fields) => {
+      if (req.body[fields] === undefined) {
+        missingFields.push(fields);
+      }
+    });
+    if (missingFields.length !== 0) {
+      return res.status(400).send({
+        status: 400,
+        error: 'The following field(s) is/are required',
+        fields: missingFields,
+      });
+    }
+    const {
+      firstName, lastName, email, address, tenor, amount,
+    } = req.body;
+    if (!validator.isAlpha(firstName) || !validator.isAlpha(lastName)
+    || !validator.isLength(firstName, { min: 3 }) || !validator.isLength(lastName, { min: 3 })) {
+      return res.status(400).send({
+        status: 400,
+        error: 'Your names can only be in alphabets and must contain atleast three characters',
+      });
+    }
+    if (!validator.isEmail(email)) {
+      return res.status(400).send({
+        status: 400,
+        error: 'please enter a valid email address',
+      });
+    }
+    if (validator.isEmpty(tenor) || validator.isEmpty(amount) || !validator.isNumeric(tenor)
+        || !validator.isNumeric(amount) || tenor > 12) {
+      return res.status(400).send({
+        status: 400,
+        error: 'tenor and/or amount cannot be empty and must cotain a number, tenor cannot be more than 12',
+      });
+    }
+    const data = dbloans.find(user => user.email === req.body.email);
+    if (data) {
+      return res.status(400).send({
+        status: 400,
+        error: 'This user already as a pending loan',
+      });
+    }
+    return next();
+  },
 };
 export default validate;
