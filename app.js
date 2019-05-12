@@ -1,13 +1,14 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import userRouter from './server/routes/router';
+import loanRouter from './server/routes/loans';
 
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/', userRouter);
+app.use('/', userRouter, loanRouter);
 
 
 const port = process.env.PORT || 3000;
