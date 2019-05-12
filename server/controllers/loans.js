@@ -43,8 +43,8 @@ const Loans = {
     });
   },
   create(req, res) {
-    const amount  = parseInt(req.body.amount);
-    const tenor = parseInt(req.body.tenor)
+    const amount = parseInt(req.body.amount);
+    const tenor = parseInt(req.body.tenor);
     const interest = amount * (5 / 100);
     const data = {
       loanId: dbloans.length + 1,
@@ -58,13 +58,21 @@ const Loans = {
       balance: amount,
       interest,
     };
-   
+
     dbloans.push(data);
     res.status(201).send({
       status: 201,
       data,
     });
-   },
+  },
+  approve(req, res) {
+    const loan = dbloans.find(user => user.loanId === parseInt(req.params.loanId));
+    loan.status = 'approved';
+    return res.status(200).send({
+      status: 200,
+      data: loan,
+    });
+  },
 };
 
 export default Loans;
