@@ -27,6 +27,13 @@ const Loans = {
         data: loan,
       });
     }
+    if (!status || !repaid) {
+      const loan = dbloans.filter(user => user.status === 'pending');
+      return res.status(200).send({
+        status: 200,
+        data: loan,
+      });
+    }
   },
 };
 
