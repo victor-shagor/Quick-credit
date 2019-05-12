@@ -295,30 +295,30 @@ describe('users', () => {
         done();
       });
   });
-  // it('should get all loan application', (done) => {
-  //   chai.request(app)
-  //     .get('/api/v1/loans')
-  //     .set({
-  //       'x-access-token': Helper.generateToken(1),
-  //     })
-  //     .end((err, res) => {
-  //       res.should.have.status(200);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('data');
-  //       done();
-  //     });
-  // });
-  // it('should not be able to get all loans without token', (done) => {
-  //   chai.request(app)
-  //     .get('/api/v1/loans')
-  //     .end((err, res) => {
-  //       res.should.have.status(401);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('error');
-  //       res.body.error.should.equal('Access Denied, Token is not provided');
-  //       done();
-  //     });
-  // });
+  it('should get all loan application', (done) => {
+    chai.request(app)
+      .get('/api/v1/loans')
+      .set({
+        'x-access-token': Helper.generateToken(1),
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        done();
+      });
+  });
+  it('should not be able to get all loans without token', (done) => {
+    chai.request(app)
+      .get('/api/v1/loans')
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('Access Denied, Token is not provided');
+        done();
+      });
+  });
   // it('should get loan repayment by id', (done) => {
   //   chai.request(app)
   //     .get('/api/v1/loans/1/repayments')
