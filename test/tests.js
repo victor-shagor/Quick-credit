@@ -282,19 +282,19 @@ describe('users', () => {
         done();
       });
   });
-  // it('should get all repaid loans', (done) => {
-  //   chai.request(app)
-  //     .get('/api/v1/loans?status=approved&repaid=true')
-  //     .set({
-  //       'x-access-token': Helper.generateToken(1), 
-  //     })
-  //     .end((err, res) => {
-  //       res.should.have.status(200);
-  //       res.body.should.be.a('object');
-  //       res.body.should.have.property('data');
-  //       done();
-  //     });
-  // });
+  it('should get all repaid loans', (done) => {
+    chai.request(app)
+      .get('/api/v1/loans?status=approved&repaid=true')
+      .set({
+        'x-access-token': Helper.generateToken(1), 
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        done();
+      });
+  });
   // it('should get all loan application', (done) => {
   //   chai.request(app)
   //     .get('/api/v1/loans')
