@@ -137,5 +137,15 @@ const validate = {
     }
     return next();
   },
+  verifyId(req, res, next) {
+    const loan = dbrepayment.find(user => user.loanId === parseInt(req.params.loanId));
+    if (!loan) {
+      return res.status(400).send({
+        status: 400,
+        error: 'id is not in the database',
+      });
+    }
+    return next();
+  },
 };
 export default validate;

@@ -35,6 +35,13 @@ const Loans = {
       });
     }
   },
+  getRepaymentById(req, res) {
+    const loan = dbrepayment.find(user => user.loanId === parseInt(req.params.loanId));
+    return res.status(200).send({
+      status: 200,
+      data: loan,
+    });
+  },
 };
 
 export default Loans;
