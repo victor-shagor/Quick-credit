@@ -5,8 +5,8 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <meta http-equiv="X-UA-Compatible" content="ie=edge">
  <title>Welcome</title>
+ <link rel="stylesheet" href="loginpage.css" type="text/css">
 </head>
-<link rel="stylesheet" href="loginpage.css" type="text/css">
 
 <body>
     <header>
@@ -96,31 +96,7 @@
     
 
       
-      <script>
-        document.querySelector('#liapply').addEventListener('click' , showApply)
-        document.querySelector('#litransact').addEventListener('click' , showTransact)
-        function showApply  (){
-          const apply = document.querySelector('#container')
-          const transact =document.querySelector('#transaction')
-          const board = document.querySelector('#board')
-          board.style.display = "none";
-          apply.style.display = "block";
-          transact.style.display = "none";
-          
-          
-          }
-          function showTransact  (){
-          const apply = document.querySelector('#container')
-          const transact =document.querySelector('#transaction')
-          const board = document.querySelector('#board')
-          board.style.display = "none";
-          apply.style.display = "none";
-          transact.style.display = "block";
-          
-          
-          }
-        
-      </script>
+      <script src =user.js> </script>
     </body>
 
 
