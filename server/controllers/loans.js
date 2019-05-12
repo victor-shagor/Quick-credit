@@ -42,6 +42,29 @@ const Loans = {
       data: loan,
     });
   },
+  create(req, res) {
+    const amount  = parseInt(req.body.amount);
+    const tenor = parseInt(req.body.tenor)
+    const interest = amount * (5 / 100);
+    const data = {
+      loanId: dbloans.length + 1,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      tenor,
+      amount,
+      paymentInstallmant: (amount + interest) / tenor,
+      status: 'pending',
+      balance: amount,
+      interest,
+    };
+   
+    dbloans.push(data);
+    res.status(201).send({
+      status: 201,
+      data,
+    });
+   },
 };
 
 export default Loans;
