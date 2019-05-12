@@ -73,6 +73,25 @@ const Loans = {
       data: loan,
     });
   },
+  repayment(req, res) {
+    const paidAmount = parseInt(req.body.paidAmount)
+    const loans = dbloans.find(result => result.loanId === parseInt(req.params.loanId))
+    const data = {
+      id: dbrepayment.length + 1,
+      loanId: parseInt(req.params.loanId),
+      createdOn: new Date(),
+      amount: loans.amount,
+      monthlyInstallment: loans.paymentInstallmant,
+      paidAmount,
+      balance: loans.balance - paidAmount,
+    };
+   
+    dbrepayment.push(data);
+    res.status(201).send({
+      status: 201,
+      data,
+    });
+   },
 };
 
 export default Loans;
