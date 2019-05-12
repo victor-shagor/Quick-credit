@@ -20,6 +20,13 @@ const Loans = {
         data: loan,
       });
     }
+    if (status === 'approved' && repaid === 'true') {
+      const loan = dbloans.filter(user => user.status === 'approved' && user.repaid === true);
+      return res.status(200).send({
+        status: 200,
+        data: loan,
+      });
+    }
   },
 };
 
