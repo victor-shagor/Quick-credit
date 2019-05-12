@@ -5,7 +5,7 @@ import Auth from '../middleware/auth';
 
 const userRouter = express.Router();
 
-const { verifyInput, verifyLogin, verifyAdmin } = validate;
+const { verifyInput, verifyLogin, verifyAdmin, verifyEmail } = validate;
 const { create, login, verify } = User;
 const { verifyToken } = Auth;
 
@@ -13,6 +13,6 @@ const { verifyToken } = Auth;
 userRouter.route('/api/v1/auth/signup').post(verifyInput,
   create);
 userRouter.route('/api/v1/auth/signin').post(verifyLogin, login);
-userRouter.route('/api/v1/users/:email/verify').patch(verifyToken, verifyAdmin, verify);
+userRouter.route('/api/v1/users/:email/verify').patch(verifyToken, verifyAdmin, verifyEmail, verify);
 
 export default userRouter;

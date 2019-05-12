@@ -1,5 +1,5 @@
 import Helper from '../Helper/helper';
-import db from '../model/db';
+import db from '../model/dbUsers';
 
 const User = {
   create(req, res) {

@@ -1,6 +1,8 @@
 import validator from 'validator';
 import Helper from '../Helper/helper';
-import db from '../model/db';
+import db from '../model/dbUsers';
+import dbloans from '../model/dbLoans';
+import dbrepayment from '../model/dbRepayment';
 
 const validate = {
   verifyInput(req, res, next) {
@@ -14,7 +16,7 @@ const validate = {
     if (missingFields.length !== 0) {
       return res.status(400).send({
         status: 400,
-        error: 'The following field(s) is required',
+        error: 'The following field(s) is/are required',
         fields: missingFields,
       });
     }
@@ -34,10 +36,10 @@ const validate = {
         error: 'please enter a valid email address',
       });
     }
-    if (!validator.isAlphanumeric(password) || !validator.isLength(password, { min: 8 })) {
+    if (!validator.isLength(password, { min: 8 })) {
       return res.status(400).send({
         status: 400,
-        error: 'Your password must contain atleast 8 characters and must include atleast one number(symbols are not allowed)',
+        error: 'Your password must contain atleast 8 characters',
       });
     }
     if (!validator.isLength(address, { min: 5 })) {
@@ -96,8 +98,8 @@ const validate = {
   verifyAdmin(req, res, next) {
     const data = db.find(user => user.token === req.headers['x-access-token']);
     if (!data) {
-      return res.status(403).send({
-        status: 403,
+      return res.status(401).send({
+        status: 401,
         error: 'Access Denied, you need to sign in to perform this operation',
       });
     }
@@ -107,6 +109,9 @@ const validate = {
         error: 'Access Denied, only an Admin can perform this operation',
       });
     }
+    return next();
+  },
+  verifyEmail(req, res, next) {
     const params = db.find(user => user.email === req.params.email);
     if (!params) {
       return res.status(400).send({
@@ -118,6 +123,16 @@ const validate = {
       return res.status(400).send({
         status: 400,
         error: 'Account as already being verified',
+      });
+    }
+    return next();
+  },
+  verifyLoanId(req, res, next) {
+    const loan = dbloans.find(user => user.loanId === parseInt(req.params.loanId));
+    if (!loan || loan.status !== 'pending') {
+      return res.status(400).send({
+        status: 400,
+        error: 'id is not in the database or id is not for a loan application',
       });
     }
     return next();
