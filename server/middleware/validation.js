@@ -194,5 +194,21 @@ const validate = {
     }
     return next();
   },
+  verifyStatus(req, res, next) {
+    const User = dbloans.find(result => result.loanId === parseInt(req.params.loanId));
+    if (!User) {
+      return res.status(400).send({
+        status: 400,
+        error: 'loan id is not in the database',
+      });
+    }
+    if (User.status === 'approved') {
+      return res.status(400).send({
+        status: 400,
+        error: 'Loan as already being approved',
+      });
+    }
+    return next();
+  },
 };
 export default validate;
