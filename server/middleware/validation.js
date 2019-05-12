@@ -210,5 +210,22 @@ const validate = {
     }
     return next();
   },
+  verifyAmount(req, res, next) {
+    if (req.body.paidAmount === undefined || !validator.isNumeric(req.body.paidAmount)
+     || validator.isEmpty(req.body.paidAmount)) {
+      return res.status(400).send({
+        status: 400,
+        error: 'paidAmount is required and it can only be a number',
+      });
+    }
+    const loans = dbloans.find(result => result.loanId === parseInt(req.params.loanId));
+    if (!loans || loans.repaid === true || loans.status === 'pending') {
+      return res.status(400).send({
+        status: 400,
+        error: 'loanId is not in the database or loanId is not for a running loan',
+      });
+    }
+    return next();
+  },
 };
 export default validate;
