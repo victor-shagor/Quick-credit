@@ -8,136 +8,6 @@ chai.should();
 
 
 describe('users', () => {
-  it('should post a user', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send({
-        firstName: 'abiola', lastName: 'ojo', email: 'ojo1@gmail.com', password: 'oladimeji1', address: 'no 2,lagos',
-      })
-      .end((err, res) => {
-        res.should.have.status(201);
-        res.body.should.be.a('object');
-        res.body.should.have.property('data');
-        res.body.data.should.be.a('object');
-        res.body.data.should.have.property('firstName');
-        res.body.data.should.have.property('lastName');
-        res.body.data.should.have.property('email');
-        res.body.data.should.have.property('password');
-        res.body.data.should.have.property('address');
-        done();
-      });
-  });
-  it('should not create a user without a firstName ', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send({
-        firstName: '', lastName: 'ojo', email: 'ojo@gmail.com', password: '123', address: 'no 2,lagos',
-      })
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.be.a('object');
-        res.body.should.have.property('error');
-        done();
-      });
-  });
-  it('should not create a user without a lastName ', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send({
-        firstName: 'abiola', lastName: '', email: 'ojo1@gmail.com', password: '123', address: 'no 2,lagos',
-      })
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.be.a('object');
-        res.body.should.have.property('error');
-
-        done();
-      });
-  });
-  it('should not create a user without an email ', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send({
-        firstName: 'abiola', lastName: 'ojo', email: '', password: '123', address: 'no 2,lagos',
-      })
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.be.a('object');
-        res.body.should.have.property('error');
-        done();
-      });
-  });
-
-  it('should not create a user without a password ', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send({
-        firstName: 'abiola', lastName: '', email: 'ojo@gmail.com', password: '', address: 'no 2,lagos',
-      })
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.be.a('object');
-        res.body.should.have.property('error');
-        done();
-      });
-  });
-
-  it('should not create a user without an address ', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send({
-        firstName: 'abiola', lastName: '', email: 'ojo@gmail.com', password: '123', address: '',
-      })
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.be.a('object');
-        res.body.should.have.property('error');
-        done();
-      });
-  });
-
-  it('should login a user', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: 'ojo@gmail.com', password: 'olo1',
-      })
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('object');
-        res.body.should.have.property('data');
-        res.body.data.should.be.a('object');
-        res.body.data.should.have.property('email');
-        res.body.data.should.have.property('password');
-        done();
-      });
-  });
-  it('should not login a user without an email ', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send({
-        email: '', password: '123',
-      })
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.be.a('object');
-        res.body.should.have.property('error');
-        done();
-      });
-  });
-  it('should not login a user without a password ', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send({
-        email: 'abiola@gmail.com', password: '',
-      })
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.be.a('object');
-        res.body.should.have.property('error');
-        done();
-      });
-  });
   it('should not be able to change user status without token', (done) => {
     chai.request(app)
       .patch('/api/v1/users/dayo@gmail.com/verify')
@@ -148,7 +18,7 @@ describe('users', () => {
         res.should.have.status(401);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
-        res.body.error.should.equal('Access Denied, Token is not provided');
+        res.body.error.should.equal('Please provide token');
         done();
       });
   });
@@ -158,7 +28,7 @@ describe('users', () => {
       .send({
         status: 'verified',
       })
-      .set({ 'x-access-token': Helper.generateToken(1) })
+      .set({ 'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk' })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
@@ -172,23 +42,6 @@ describe('users', () => {
         done();
       });
   });
-  it('should not be able to change user status without signin', (done) => {
-    chai.request(app)
-      .patch('/api/v1/users/dayo@gmail.com/verify')
-      .send({
-        status: 'verified',
-      })
-      .set({
-        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU1NzYxODkxMywiZXhwIjoxNTU4MjIzNzEzfQ.rA7HObV85qkb7udUNzTArg06PNRP_ARfJT4YcNlbfUI',
-      })
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.should.be.a('object');
-        res.body.should.have.property('error');
-        res.body.error.should.equal('Access Denied, you need to sign in to perform this operation');
-        done();
-      });
-  });
   it('should not be able to change user status without a valid email', (done) => {
     chai.request(app)
       .patch('/api/v1/users/ab@gmail.com/verify')
@@ -196,10 +49,10 @@ describe('users', () => {
         status: 'verified',
       })
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
       })
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(404);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
         res.body.error.should.equal('Email is not registered');
@@ -213,7 +66,7 @@ describe('users', () => {
         status: 'verified',
       })
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
       })
       .end((err, res) => {
         res.should.have.status(400);
@@ -227,7 +80,7 @@ describe('users', () => {
     chai.request(app)
       .get('/api/v1/loans/1')
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
       })
       .end((err, res) => {
         res.should.have.status(200);
@@ -245,7 +98,7 @@ describe('users', () => {
     chai.request(app)
       .get('/api/v1/loans/3')
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
       })
       .end((err, res) => {
         res.should.have.status(400);
@@ -255,25 +108,11 @@ describe('users', () => {
         done();
       });
   });
-  it('should not be able to get loan without signin', (done) => {
-    chai.request(app)
-      .get('/api/v1/loans/3')
-      .set({
-        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU1NzYxODkxMywiZXhwIjoxNTU4MjIzNzEzfQ.rA7HObV85qkb7udUNzTArg06PNRP_ARfJT4YcNlbfUI',
-      })
-      .end((err, res) => {
-        res.should.have.status(401);
-        res.body.should.be.a('object');
-        res.body.should.have.property('error');
-        res.body.error.should.equal('Access Denied, you need to sign in to perform this operation');
-        done();
-      });
-  });
   it('should get all running loans', (done) => {
     chai.request(app)
       .get('/api/v1/loans?status=approved&repaid=false')
       .set({
-        'x-access-token': Helper.generateToken(1), 
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
       })
       .end((err, res) => {
         res.should.have.status(200);
@@ -286,7 +125,7 @@ describe('users', () => {
     chai.request(app)
       .get('/api/v1/loans?status=approved&repaid=true')
       .set({
-        'x-access-token': Helper.generateToken(1), 
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
       })
       .end((err, res) => {
         res.should.have.status(200);
@@ -299,7 +138,7 @@ describe('users', () => {
     chai.request(app)
       .get('/api/v1/loans')
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
       })
       .end((err, res) => {
         res.should.have.status(200);
@@ -315,7 +154,7 @@ describe('users', () => {
         res.should.have.status(401);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
-        res.body.error.should.equal('Access Denied, Token is not provided');
+        res.body.error.should.equal('Please provide token');
         done();
       });
   });
@@ -323,7 +162,7 @@ describe('users', () => {
     chai.request(app)
       .get('/api/v1/loans/1/repayments')
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjIsImZpcnN0bmFtZSI6IkRheW8iLCJlbWFpbCI6ImRheW9AZ21haWwuY29tIn0sImlhdCI6MTU1ODA5MzM2OCwiZXhwIjoxNTU4Njk4MTY4fQ.Cn761mRXRZ8I6dVIYLRauQ6eYOKLziBTiNyBiheo8Gs',
       })
       .end((err, res) => {
         res.should.have.status(200);
@@ -340,10 +179,10 @@ describe('users', () => {
     chai.request(app)
       .get('/api/v1/loans/5/repayments')
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjIsImZpcnN0bmFtZSI6IkRheW8iLCJlbWFpbCI6ImRheW9AZ21haWwuY29tIn0sImlhdCI6MTU1ODA5MzM2OCwiZXhwIjoxNTU4Njk4MTY4fQ.Cn761mRXRZ8I6dVIYLRauQ6eYOKLziBTiNyBiheo8Gs',
       })
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(404);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
         res.body.error.should.equal('id is not in the database');
@@ -357,7 +196,7 @@ describe('users', () => {
         res.should.have.status(401);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
-        res.body.error.should.equal('Access Denied, Token is not provided');
+        res.body.error.should.equal('Please provide token');
         done();
       });
   });
@@ -368,7 +207,7 @@ describe('users', () => {
         firstName: 'okoko', lastName: 'bioko', email: 'ojomnmdm@gmail.com', tenor: '3', amount: '50000',
       })
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjIsImZpcnN0bmFtZSI6IkRheW8iLCJlbWFpbCI6ImRheW9AZ21haWwuY29tIn0sImlhdCI6MTU1ODA5NzExMSwiZXhwIjoxNTU4NzAxOTExfQ.gwa_PuQZT7RTTrNfHncuFR84OvfIcZ_1tzuORZZmNHQ',
       })
       .end((err, res) => {
         res.should.have.status(201);
@@ -384,32 +223,13 @@ describe('users', () => {
         done();
       });
   });
-  it('should not create a loan application without firstname', (done) => {
-    chai.request(app)
-      .post('/api/v1/loans')
-      .send({
-        lastName: 'bioko', email: 'ojomnmdm@gmail.com', tenor: 3, amount: 50000,
-      })
-      .set({
-        'x-access-token': Helper.generateToken(1),
-      })
-      .end((err, res) => {
-        res.should.have.status(400);
-        res.body.should.be.a('object');
-        res.body.should.have.property('error');
-        res.body.error.should.equal('The following field(s) is/are required');
-        done();
-      });
-  });
   it('should not be to create a loan application', (done) => {
     chai.request(app)
       .post('/api/v1/loans')
       .send({
         firstName: 'i', lastName: 'bioko', email: 'ojomnmdm@gmail.com', tenor: 3, amount: 50000,
       })
-      .set({
-        'x-access-token': Helper.generateToken(1),
-      })
+      .set({ 'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjIsImZpcnN0bmFtZSI6IkRheW8iLCJlbWFpbCI6ImRheW9AZ21haWwuY29tIn0sImlhdCI6MTU1ODA5MzM2OCwiZXhwIjoxNTU4Njk4MTY4fQ.Cn761mRXRZ8I6dVIYLRauQ6eYOKLziBTiNyBiheo8Gs' })
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.be.a('object');
@@ -424,9 +244,7 @@ describe('users', () => {
       .send({
         firstName: 'ider', lastName: 'bioko', email: 'com', tenor: 3, amount: 50000,
       })
-      .set({
-        'x-access-token': Helper.generateToken(1),
-      })
+      .set({ 'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjIsImZpcnN0bmFtZSI6IkRheW8iLCJlbWFpbCI6ImRheW9AZ21haWwuY29tIn0sImlhdCI6MTU1ODA5MzM2OCwiZXhwIjoxNTU4Njk4MTY4fQ.Cn761mRXRZ8I6dVIYLRauQ6eYOKLziBTiNyBiheo8Gs' })
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.be.a('object');
@@ -442,7 +260,7 @@ describe('users', () => {
         firstName: 'ider', lastName: 'bioko', email: 'ojo@gmail.com', tenor: '', amount: '50000',
       })
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjIsImZpcnN0bmFtZSI6IkRheW8iLCJlbWFpbCI6ImRheW9AZ21haWwuY29tIn0sImlhdCI6MTU1ODA5MzM2OCwiZXhwIjoxNTU4Njk4MTY4fQ.Cn761mRXRZ8I6dVIYLRauQ6eYOKLziBTiNyBiheo8Gs',
       })
       .end((err, res) => {
         res.should.have.status(400);
@@ -459,7 +277,7 @@ describe('users', () => {
         status: 'approved',
       })
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
       })
       .end((err, res) => {
         res.should.have.status(200);
@@ -482,7 +300,7 @@ describe('users', () => {
         status: 'approved',
       })
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
       })
       .end((err, res) => {
         res.should.have.status(400);
@@ -499,7 +317,8 @@ describe('users', () => {
         status: 'approved',
       })
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
+
       })
       .end((err, res) => {
         res.should.have.status(400);
@@ -516,7 +335,7 @@ describe('users', () => {
         paidAmount: '5000',
       })
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
       })
       .end((err, res) => {
         res.should.have.status(201);
@@ -535,7 +354,7 @@ describe('users', () => {
         paidAmount: '5000',
       })
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
       })
       .end((err, res) => {
         res.should.have.status(400);
@@ -552,7 +371,7 @@ describe('users', () => {
         paidAmount: '',
       })
       .set({
-        'x-access-token': Helper.generateToken(1),
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
       })
       .end((err, res) => {
         res.should.have.status(400);
