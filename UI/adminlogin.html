@@ -5,9 +5,8 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <meta http-equiv="X-UA-Compatible" content="ie=edge">
  <title>Welcome</title>
+ <link rel="stylesheet" href="loginpage.css" type="text/css">
 </head>
-<link rel="stylesheet" href="loginpage.css" type="text/css">
-
 <body>
     <header>
       <div>
@@ -21,20 +20,20 @@
        
         
       <div id= "sidebar">
-        <h3>Dashboard</h3><br>
+        <a href="adminlogin.html"><h3><img src="monitor.png">Dashboard</h3><br></a>
           <h4>LOANS</h4>
-       <ul>
+       <!-- <ul> -->
         
-        <li id= "liloans"><a href=#>Loan Applications</a></li>
-        <li id= "lirunning"><a href=#>Running Loans</a></li>
-        <li id= "lirepaid"><a href=#>Repaid Loans</a></li>
-        </ul><br>
+        <p><a href=# id= "liloans">Loan Applications</a></p>
+        <p><a href=# id= "lirunning">Running Loans</a></p>
+        <p><a href=# id= "lirepaid">Repaid Loans</a></p>
+        <!-- </ul><br> -->
         <h4>USERS</h4>
-       <ul>
-          <li id= "liclients"><a href=#>View users</a></li>
-          <li id= "lipost"><a href=#>Post Repayment Transaction</a></li><br><br><br>
-          <li><a href="index.html">Log out</a></li>
-       </ul>
+       
+          <p><a href=# id= "liclients">View users</a></p>
+          <p><a href=# id= "lipost">Post Repayment Transaction</a></p><br><br><br>
+          <p><a href="index.html">Log out</a></p>
+       
       </div>
       <div id="board">
         <h2>Dashboard</h2>
@@ -57,18 +56,22 @@
               </div>
       </div>
     </div>
+  <div id="returns">
       <div id= clients>
           <h3>Clients</h3>
       <div id= "view">
        
       
        <table>
+        <thead>
        <tr>
         <th>Name</th>
         <th>Email</th>
         <th>Address</th>
         <th></th>
        </tr>
+      </thead>
+      <tbody>
        <tr>
          <td>Ojo Abiola Victor</td>
          <td>ojoabiolavictor@gmail.com</td>
@@ -89,6 +92,7 @@
           <td>no28, aiyepe, shomolu</td>
           <td><input type="submit" id="verify"value="verify"></td>
           </tr>
+        </tbody>
       </table>
      </div>
      </div>
@@ -98,42 +102,46 @@
       
      
       <table>
+      <thead>
       <tr>
         <th></th>
         <th>Applied Date</th>
        <th>Email</th>
        <th>Amount</th>
        <th>Tenor</th>
-       <th></th>
+       <th>Action</th>
       </tr>
+    </thead>
+    <tbody>
       <tr>
-        <td><input type="submit" id="verify"value="view"></td>       
+        <td><a href="loanpage.html"><input type="submit" id="verify"value="view"></a></td>       
         <td>12/01/2018</td>
         <td>ojoabiolavictor@gmail.com</td>
         <td>500,000</td>
         <td>5months</td>
-        <td><input type="submit" id="approval"value="approve"><input type="submit" id="approval"value="reject"></td>
+        <td><input type="submit" id="approval"value="approve"><input type="submit" id="reject"value="reject"></td>
         
        </tr>
        <tr>
-          <td><input type="submit" id="verify"value="view"></td>
+        <td><a href="loanpage.html"><input type="submit" id="verify"value="view"></a></td>
           <td>12/01/2018</td>
         <td>ojoabiolavictor@gmail.com</td>
         <td>500,000</td>
         <td>5months</td>
-        <td><input type="submit" id="approval"value="approve"><input type="submit" id="approval"value="reject"></td>
+        <td><input type="submit" id="approval"value="approve"><input type="submit" id="reject"value="reject"></td>
         
          
         </tr>
         <tr>
-            <td><input type="submit" id="verify"value="view"></td>
+          <td><a href="loanpage.html"><input type="submit" id="verify"value="view"></a></td>
             <td>12/01/2018</td>
          <td>ojoabiolavictor@gmail.com</td>
         <td>500,000</td>
         <td>5months</td>
-        <td><input type="submit" id="approval"value="approve"><input type="submit" id="approval"value="reject"></td>
+        <td><input type="submit" id="approval"value="approve"><input type="submit" id="reject"value="reject"></td>
         
          </tr>
+        </tbody>
      </table>
     </div>
     </div>
@@ -143,6 +151,7 @@
      
     
      <table>
+       <thead>
      <tr>
        <th>Applied Date</th>
       <th>Email</th>
@@ -151,6 +160,8 @@
       <th>Balance</th>
       <th>Due Date</th>
      </tr>
+    </thead>
+    <tbody>
      <tr>
        <td>01/01/2019</td>
        <td>ojoabiolavictor@gmail.com</td>
@@ -177,6 +188,7 @@
           <td>50,000</td>
           <td>01/06/2019</td>
         </tr>
+      </tbody>
     </table>
    </div>
    </div>
@@ -186,12 +198,15 @@
        
        
     <table>
+      <thead>
     <tr>
      <th>Applied Date</th>
      <th>Amount</th>
      <th>Tenor</th>
      <th>Repaid Date</th>
     </tr>
+  </thead>
+  <tbody>
     <tr>
       <td>12/01/2018</td>
       <td>500,000</td>
@@ -210,13 +225,14 @@
         <td>12months</td>
         <td>10/01/2019</td>
        </tr>
+      </tbody>
    </table>
   </div>
   </div>
   <div id= "container">
-      <h2>Apply For a Loan</h2>
+      <h3>Post Repayment</h3>
   <div id="message">
-    <p>Enter the loan request details below</p>
+    <p>Enter loan repayment details below</p>
   </div>
   <div id= "box">
     <form id="postForm">
@@ -225,11 +241,12 @@
       <label for="input">Email &nbsp</label>
       <input id="input" type="email" placeholder="Email"><br><br>
     </form>
-     <button id="logIn">Post</button>
+     <button id="posts">Post</button>
   </div>
   </div>
+</div>
 
-  <script src =index.js></script>
+  <script src =admin.js></script>
     </body>
 
 
