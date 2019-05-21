@@ -11,7 +11,7 @@ describe('users', () => {
     chai.request(app)
       .post('/api/v1/auth/signup')
       .send({
-        firstName: 'abiola', lastName: 'ojo', email: 'ojo1@gmail.com', password: 'oladimeji1', address: 'no 2,lagos',
+        firstName: 'abiola', lastName: 'ojo', email: 'adebayo12345@gmail.com', password: 'oladimeji1', address: 'no 2,lagos',
       })
       .end((err, res) => {
         res.should.have.status(201);
@@ -93,4 +93,19 @@ describe('users', () => {
         done();
       });
   });
+  it('should login a user', (done) => {
+    chai.request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'adebayo12345@gmail.com', password: 'oladimeji1',
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('firstname');
+        res.body.data.should.have.property('lastname');
+        done();
+      });
+   });
 });
