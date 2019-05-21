@@ -14,8 +14,8 @@ const { verifyAdmin } = Auth;
 const { creates, login, verify } = users;
 
 
-userRouter.route('/api/v1/auth/signup').post(verifyInput,
-  creates);
+userRouter.route('/api/v1/auth/signup').post(verifyInput, creates);
+userRouter.route('/api/v1/auth/signin').post(verifyLogin, login);
 
 
 export default userRouter;
