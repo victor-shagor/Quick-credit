@@ -30,7 +30,7 @@ const Helper = {
   */
   generateToken(data) {
     let secret = process.env.SECRET;
-    if (data.email === 'ojo@gmail.com') {
+    if (data.is_admin === true) {
       secret = process.env.ASECRET;
     }
 
