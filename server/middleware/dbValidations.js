@@ -106,5 +106,21 @@ const dbvalidate = {
     return next();
   });
 },
+verifyEmail(req, res, next) {
+  const { email } = req.params;
+  pool.query('SELECT email, status FROM users WHERE email = $1 ', [email], (error, results) => {
+    if (!results.rows[0]) {
+      return res.status(404).send(
+        Message.errorMessage(404, 'Email is not registered'),
+      );
+    }
+    if (results.rows[0].status === 'verified') {
+      return res.status(400).send(
+        Message.errorMessage(400, 'Account as already being verified'),
+      );
+    }
+    return next();
+  });
+},
 };
 export default dbvalidate;
