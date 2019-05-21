@@ -7,24 +7,6 @@ chai.use(chaiHttp);
 chai.should();
 
 describe('users', () => {
-  it('should post a user', (done) => {
-    chai.request(app)
-      .post('/api/v1/auth/signup')
-      .send({
-        firstName: 'abiola', lastName: 'ojo', email: 'ojo1@gmail.com', password: 'oladimeji1', address: 'no 2,lagos',
-      })
-      .end((err, res) => {
-        res.should.have.status(201);
-        res.body.should.be.a('object');
-        res.body.should.have.property('data');
-        res.body.data.should.be.a('object');
-        res.body.data.should.have.property('firstName');
-        res.body.data.should.have.property('lastName');
-        res.body.data.should.have.property('email');
-        res.body.data.should.have.property('address');
-        done();
-      });
-  });
   it('should not create a user without a firstName ', (done) => {
     chai.request(app)
       .post('/api/v1/auth/signup')
@@ -90,6 +72,21 @@ describe('users', () => {
         res.should.have.status(400);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
+        done();
+      });
+  });
+  it('should login a user', (done) => {
+    chai.request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'ojoabiola@gmail.com', password: 'oladimeji1',
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('firstname');
+        res.body.data.should.have.property('lastname');
         done();
       });
   });

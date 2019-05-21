@@ -32,5 +32,25 @@ const users = {
       });
     });
   },
+  login(req, res) {
+    const emal = req.body.email;
+    pool.query('SELECT firstname, lastname, email, address, status, created_on, is_admin FROM users WHERE email = $1 ', [emal], (error, results) => {
+      if (error) {
+        throw error;
+      }
+      const { id } = results.rows[0];
+      const {
+        firstname, lastname, email, address, status, created_on, is_admin,
+      } = results.rows[0];
+      const token = helper.generateToken({ id, is_admin, email });
+      const data = {
+        id, firstname, lastname, email, address, status, created_on, token,
+      };
+      return res.status(200).json({
+        status: 200,
+        data,
+      });
+    });
+   },
 };
 export default users;
