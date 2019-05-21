@@ -43,11 +43,11 @@ const Auth = {
     jwt.verify(token, process.env.ASECRET, (error) => {
       if (error) {
         return res.status(403).send(
-          Message.errorMessage(403, 'Access Denied,You have to be an admin'),
+          Message.errorMessage(403, 'Access Denied, please provide a valid admin token'),
         );
       }
+      return next();
     });
-    return next();
   },
 };
 
