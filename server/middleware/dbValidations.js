@@ -11,7 +11,7 @@ import Message from '../Helper/responseMessage';
 dotenv.config();
 
 const pool = new Pool({
- connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL,
 });
 
 const dbvalidate = {
@@ -67,44 +67,60 @@ const dbvalidate = {
       return next();
     });
   },
-   /**
+  /**
   * @description verifies user input
   * @param {object} req request parameter
   * @param {object} res response object {status, data}
   * @returns {object} error message
   */
- verifyLogin(req, res, next) {
-  const requiredFields = ['email', 'password'];
-  const missingFields = [];
-  requiredFields.forEach((fields) => {
-    if (req.body[fields] === undefined) {
-      missingFields.push(fields);
-    }
-  });
-  if (missingFields.length !== 0) {
-    return res.status(400).send(
-      Message.errorMessage(400, `The following field(s) is/are required ${missingFields}`),
-    );
-  }
-  if (validator.isEmpty(req.body.email) || validator.isEmpty(req.body.password)) {
-    return res.status(400).send(
-      Message.errorMessage(400, 'email and/or password cannot be empty'),
-    );
-  }
-  const { email } = req.body;
-  pool.query('SELECT email, password FROM users WHERE email = $1 ', [email], (error, results) => {
-    if (!results.rows[0]) {
-      return res.status(404).send(
-        Message.errorMessage(404, 'Invalid email or password'),
+  verifyLogin(req, res, next) {
+    const requiredFields = ['email', 'password'];
+    const missingFields = [];
+    requiredFields.forEach((fields) => {
+      if (req.body[fields] === undefined) {
+        missingFields.push(fields);
+      }
+    });
+    if (missingFields.length !== 0) {
+      return res.status(400).send(
+        Message.errorMessage(400, `The following field(s) is/are required ${missingFields}`),
       );
     }
-    if (!Helper.comparePassword(results.rows[0].password, req.body.password)) {
-      return res.status(404).send(
-        Message.errorMessage(404, 'Invalid email or password'),
+    if (validator.isEmpty(req.body.email) || validator.isEmpty(req.body.password)) {
+      return res.status(400).send(
+        Message.errorMessage(400, 'email and/or password cannot be empty'),
       );
     }
-    return next();
-  });
-},
+    const { email } = req.body;
+    pool.query('SELECT email, password FROM users WHERE email = $1 ', [email], (error, results) => {
+      if (!results.rows[0]) {
+        return res.status(404).send(
+          Message.errorMessage(404, 'Invalid email or password'),
+        );
+      }
+      if (!Helper.comparePassword(results.rows[0].password, req.body.password)) {
+        return res.status(404).send(
+          Message.errorMessage(404, 'Invalid email or password'),
+        );
+      }
+      return next();
+    });
+  },
+  verifyEmail(req, res, next) {
+    const { email } = req.params;
+    pool.query('SELECT email, status FROM users WHERE email = $1 ', [email], (error, results) => {
+      if (!results.rows[0]) {
+        return res.status(404).send(
+          Message.errorMessage(404, 'Email is not registered'),
+        );
+      }
+      if (results.rows[0].status === 'verified') {
+        return res.status(400).send(
+          Message.errorMessage(400, 'Account as already being verified'),
+        );
+      }
+      return next();
+    });
+  },
 };
 export default dbvalidate;

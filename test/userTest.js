@@ -90,4 +90,52 @@ describe('users', () => {
         done();
       });
   });
+  it('should not be able to change user status without token', (done) => {
+    chai.request(app)
+      .patch('/api/v1/users/dayo@gmail.com/verify')
+      .send({
+        status: 'verified',
+      })
+      .end((err, res) => {
+        res.should.have.status(401);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('Please provide token');
+        done();
+      });
+  });
+  it('should not be able to change user status without a valid email', (done) => {
+    chai.request(app)
+      .patch('/api/v1/users/ab@gmail.com/verify')
+      .send({
+        status: 'verified',
+      })
+      .set({
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
+      })
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('Email is not registered');
+        done();
+      });
+  });
+  it('should not be able to change user status if user is already verified', (done) => {
+    chai.request(app)
+      .patch('/api/v1/users/ojoabiola@gmail.com/verify')
+      .send({
+        status: 'verified',
+      })
+      .set({
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('Account as already being verified');
+        done();
+      });
+   });
 });

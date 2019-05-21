@@ -52,5 +52,24 @@ const users = {
       });
     });
    },
+   verify(req, res) {
+    const emal = req.params.email;
+    const modifiedOn = new Date();
+    const stat = 'verified';
+    pool.query('UPDATE users SET status = $1, modified_on = $2 WHERE email = $3', [stat, modifiedOn, emal], (error, result) => {
+      pool.query('SELECT id , firstname, lastname, email, address, status, FROM users WHERE email = $1', [emal], (error, results) => {
+        const {
+          id, firstname, lastname, email, address, status,
+        } = results.rows[0];
+        const data = {
+          id, firstname, lastname, email, address, status, modifiedOn,
+        };
+        return res.status(200).json({
+          status: 200,
+          data,
+        });
+      });
+    });
+  },
 };
 export default users;

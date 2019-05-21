@@ -16,6 +16,6 @@ const { creates, login, verify } = users;
 
 userRouter.route('/api/v1/auth/signup').post(verifyInput, creates);
 userRouter.route('/api/v1/auth/signin').post(verifyLogin, login);
-
+userRouter.route('/api/v1/users/:email/verify').patch(verifyAdmin, verifyEmail, verify);
 
 export default userRouter;
