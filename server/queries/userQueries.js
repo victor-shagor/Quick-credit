@@ -57,7 +57,10 @@ const users = {
     const modifiedOn = new Date();
     const stat = 'verified';
     pool.query('UPDATE users SET status = $1, modified_on = $2 WHERE email = $3', [stat, modifiedOn, emal], (error, result) => {
-      pool.query('SELECT id , firstname, lastname, email, address, status, FROM users WHERE email = $1', [emal], (error, results) => {
+      pool.query('SELECT id , firstname, lastname, email, address, status FROM users WHERE email = $1', [emal], (error, results) => {
+        if(error){
+          throw error
+        }
         const {
           id, firstname, lastname, email, address, status,
         } = results.rows[0];

@@ -16,6 +16,7 @@ const {
 } = loans;
 const { verifyToken, verifyAdmin } = Auth;
 
+loanRouter.route('/api/v1/loans/:id').get(verifyAdmin, verifyLoanId, getLoanById);
 
 
 export default loanRouter;
