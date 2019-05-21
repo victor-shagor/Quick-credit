@@ -13,6 +13,18 @@ const validate = {
   * @returns {object} error message
   */
   verifyInput(req, res, next) {
+    const requiredFields = ['firstName', 'lastName', 'email', 'address', 'password'];
+    const missingFields = [];
+    requiredFields.forEach((fields) => {
+      if (req.body[fields] === undefined) {
+        missingFields.push(fields);
+      }
+    });
+    if (missingFields.length !== 0) {
+      return res.status(400).send(
+        Message.errorMessage(400, `The following field(s) is/are required ${missingFields}`),
+      );
+    }
     const {
       firstName, lastName, email, address, password,
     } = req.body;
@@ -54,6 +66,18 @@ const validate = {
   * @returns {object} error message
   */
   verifyLogin(req, res, next) {
+    const requiredFields = ['email', 'password'];
+    const missingFields = [];
+    requiredFields.forEach((fields) => {
+      if (req.body[fields] === undefined) {
+        missingFields.push(fields);
+      }
+    });
+    if (missingFields.length !== 0) {
+      return res.status(400).send(
+        Message.errorMessage(400, `The following field(s) is/are required ${missingFields}`),
+      );
+    }
     if (validator.isEmpty(req.body.email) || validator.isEmpty(req.body.password)) {
       return res.status(400).send(
         Message.errorMessage(400, 'email and/or password cannot be empty'),
@@ -129,6 +153,18 @@ const validate = {
   * @returns {object} error message
   */
   verifyFields(req, res, next) {
+    const requiredFields = ['firstName', 'lastName', 'email', 'tenor', 'amount'];
+    const missingFields = [];
+    requiredFields.forEach((fields) => {
+      if (req.body[fields] === undefined) {
+        missingFields.push(fields);
+      }
+    });
+    if (missingFields.length !== 0) {
+      return res.status(400).send(
+        Message.errorMessage(400, `The following field(s) is/are required ${missingFields}`),
+      );
+    }
     const {
       firstName, lastName, email, tenor, amount,
     } = req.body;
