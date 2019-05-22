@@ -2,6 +2,9 @@ language: node_js
 node_js:
   - "stable"
 
+services:
+  - postgresql
+
 cache:
   directories:
     - "node_modules"
@@ -12,6 +15,8 @@ env:
     - CC_TEST_REPORTER_ID=7147b6b6dc0ab3fa12c9ef6a8ece89155b92dddfb8cdb6aab258e48a28cdd1c1
     - SECRET=sagoro
 before_script:
+  - postgresql -c "CREATE DATABASE quickcredit_test;" -U postgres
+  - postgresql -c "CREATE USER victor WITH PASSWORD 'password';" -U postgres
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
