@@ -138,4 +138,36 @@ describe('users', () => {
         done();
       });
    });
+   it('should get loan by id', (done) => {
+    chai.request(app)
+      .get('/api/v1/loans/4')
+      .set({
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('firstname');
+        res.body.data.should.have.property('lastname');
+        res.body.data.should.have.property('email');
+        res.body.data.should.have.property('tenor');
+        res.body.data.should.have.property('address');
+        done();
+      });
+  });
+  it('should not get loan without invalid parameter', (done) => {
+    chai.request(app)
+      .get('/api/v1/loans/33')
+      .set({
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
+      })
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('id is not in the database or id is not for a loan application');
+        done();
+      });
+  });
 });
