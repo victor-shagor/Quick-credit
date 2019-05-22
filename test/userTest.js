@@ -170,4 +170,17 @@ describe('users', () => {
         done();
       });
   });
+  it('should get all running loans', (done) => {
+    chai.request(app)
+      .get('/api/v1/loans?status=approved&repaid=false')
+      .set({
+        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        done();
+      });
+  });
 });

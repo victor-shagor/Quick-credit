@@ -17,5 +17,16 @@ const loans = {
       });
     });
   },
-}
- export default loans;
+  getLoans(req, res) {
+    const { status, repaid } = req.query;
+    if (status && repaid) {
+      pool.query('SELECT * FROM loans WHERE status = $1 AND repaid = $2', [status, repaid], (error, results) => {
+        if (error) {
+          throw error;
+        }
+        return res.status(200).send({ data: results.rows });
+      });
+    }
+  },
+};
+export default loans;

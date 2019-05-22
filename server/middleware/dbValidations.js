@@ -60,7 +60,7 @@ const dbvalidate = {
     }
     pool.query('SELECT email FROM users WHERE email = $1 ', [email], (error, results) => {
       if (error) {
-        throw error
+        throw error;
       }
       if (results.rows[0]) {
         return res.status(409).send(
@@ -134,6 +134,25 @@ const dbvalidate = {
           error: 'id is not in the database or id is not for a loan application',
         });
       }
+      return next();
+    });
+  },
+  validateQuery(req, res, next) {
+    const { status, repaid } = req.query;
+    if (status) {
+      if (!validator.isBoolean(repaid) || status !== 'approved') {
+        return res.status(400).send(
+          Message.errorMessage(400, 'invalid request query'),
+        );
+      }
+    }
+    pool.query('SELECT * FROM loans WHERE status = $1 AND repaid = $2', [status, repaid], (error, results) => {
+      if (!results.rows[0]) {
+        return res.status(400).send(
+          Message.errorMessage(400, 'There are no loans no view'),
+        );
+      }
+
       return next();
     });
   },
