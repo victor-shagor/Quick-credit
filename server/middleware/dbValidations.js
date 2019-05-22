@@ -146,7 +146,7 @@ const dbvalidate = {
         );
       }
     }
-    pool.query('SELECT * FROM loans WHERE status = $1 AND repaid = $2', [status, repaid], (error, results) => {
+    pool.query('SELECT status, repaid FROM loans WHERE status = $1 AND repaid = $2', [status, repaid], (error, results) => {
       if (!results.rows[0]) {
         return res.status(400).send(
           Message.errorMessage(400, 'There are no loans no view'),
