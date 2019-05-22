@@ -27,6 +27,14 @@ const loans = {
         return res.status(200).send({ data: results.rows });
       });
     }
+    if (!status || !repaid) {
+      pool.query('SELECT * FROM loans WHERE status = $1', ['pending'], (error, results) => {
+        if (error) {
+          throw error;
+        }
+        return res.status(200).send({ data: results.rows });
+      });
+    }
   },
 };
 export default loans;
