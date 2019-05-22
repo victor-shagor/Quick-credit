@@ -92,6 +92,23 @@ describe('users', () => {
         done();
       });
   });
+  let token1;
+  it('should login a user', (done) => {
+    chai.request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'temidayo@gmail.com', password: 'magretab1',
+      })
+      .end((err, res) => {
+        token1 = res.body.data.token;
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('firstname');
+        res.body.data.should.have.property('lastname');
+        done();
+      });
+  });
   it('should not be able to change user status without token', (done) => {
     chai.request(app)
       .patch('/api/v1/users/dayo@gmail.com/verify')
@@ -219,6 +236,23 @@ describe('users', () => {
         res.body.should.be.a('object');
         res.body.should.have.property('error');
         res.body.error.should.equal('Please provide token');
+        done();
+      });
+  });
+  it('should get loan repayment by id', (done) => {
+    chai.request(app)
+      .get('/api/v1/loans/12/repayments')
+      .set({
+        'x-access-token': token1,
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('loanid');
+        res.body.data.should.have.property('amount');
+        res.body.data.should.have.property('paidamount');
+        res.body.data.should.have.property('balance');
         done();
       });
   });
