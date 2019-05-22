@@ -75,6 +75,7 @@ describe('users', () => {
         done();
       });
   });
+  let token;
   it('should login a user', (done) => {
     chai.request(app)
       .post('/api/v1/auth/signin')
@@ -82,6 +83,7 @@ describe('users', () => {
         email: 'ojoabiola@gmail.com', password: 'oladimeji1',
       })
       .end((err, res) => {
+        token = res.body.data.token;
         res.should.have.status(200);
         res.body.should.be.a('object');
         res.body.should.have.property('data');
@@ -111,7 +113,7 @@ describe('users', () => {
         status: 'verified',
       })
       .set({
-        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
+        'x-access-token': token,
       })
       .end((err, res) => {
         res.should.have.status(404);
@@ -128,7 +130,7 @@ describe('users', () => {
         status: 'verified',
       })
       .set({
-        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
+        'x-access-token': token,
       })
       .end((err, res) => {
         res.should.have.status(400);
@@ -142,7 +144,7 @@ describe('users', () => {
     chai.request(app)
       .get('/api/v1/loans/4')
       .set({
-        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
+        'x-access-token': token,
       })
       .end((err, res) => {
         res.should.have.status(200);
@@ -160,13 +162,26 @@ describe('users', () => {
     chai.request(app)
       .get('/api/v1/loans/33')
       .set({
-        'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOnsiaWQiOjEsImZpcnN0bmFtZSI6ImFiaW9sYSIsImVtYWlsIjoib2pvQGdtYWlsLmNvbSJ9LCJpYXQiOjE1NTgwODkwOTYsImV4cCI6MTU1ODY5Mzg5Nn0.Qi0I-zdjDzvmeuIERIzD7no7-_vTfpop9lJljqk1NQk',
+        'x-access-token': token,
       })
       .end((err, res) => {
         res.should.have.status(404);
         res.body.should.be.a('object');
         res.body.should.have.property('error');
         res.body.error.should.equal('id is not in the database or id is not for a loan application');
+        done();
+      });
+  });
+  it('should get all running loans', (done) => {
+    chai.request(app)
+      .get('/api/v1/loans?status=approved&repaid=false')
+      .set({
+        'x-access-token': token,
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
         done();
       });
   });

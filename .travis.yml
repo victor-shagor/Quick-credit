@@ -1,17 +1,27 @@
 language: node_js
 node_js:
-  - "stable"
+  - "10.15.1"
 
-cache:
-  directories:
-    - "node_modules"
+services:
+  - postgresql
 
-
+install:
+ -npm install
+ 
+addons:
+ apt:
+  sources:
+   - ubuntu-toolchain-r-test
+  packages:
+   - g++-4.8
+   - gcc-4.8
 env:
+  - CXX=g++-4.8
   global:
     - CC_TEST_REPORTER_ID=7147b6b6dc0ab3fa12c9ef6a8ece89155b92dddfb8cdb6aab258e48a28cdd1c1
     - SECRET=sagoro
 before_script:
+  - postgresql -c "CREATE DATABASE quickcredit_test;" -U postgres
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
@@ -19,4 +29,4 @@ script:
   - npm run test
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-  - npm run coverall
+  - npm run coveralls
