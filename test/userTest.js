@@ -185,4 +185,17 @@ describe('users', () => {
         done();
       });
   });
+  it('should get all running loans', (done) => {
+    chai.request(app)
+      .get('/api/v1/loans?status=approved&repaid=false')
+      .set({
+        'x-access-token': token,
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        done();
+      });
+  });
 });
