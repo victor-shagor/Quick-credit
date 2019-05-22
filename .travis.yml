@@ -5,6 +5,9 @@ node_js:
 services:
   - postgresql
 
+install:
+ -npm install
+ 
 addons:
  apt:
   sources:
