@@ -8,9 +8,14 @@ services:
 cache:
   directories:
     - "node_modules"
-
-
+addons:
+ apt:
+  sources:
+   - ubuntu-toolchain-r-test
+  packages:
+   - g++-4.8
 env:
+  - CXX=g++-4.8
   global:
     - CC_TEST_REPORTER_ID=7147b6b6dc0ab3fa12c9ef6a8ece89155b92dddfb8cdb6aab258e48a28cdd1c1
     - SECRET=sagoro
