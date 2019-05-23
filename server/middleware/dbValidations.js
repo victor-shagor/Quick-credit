@@ -204,5 +204,37 @@ const dbvalidate = {
       return next();
     });
   },
-};
-export default dbvalidate;
+  verifyStatus(req, res, next) {
+    const { status } = req.body;
+    if (!status || status === undefined) {
+      return res.status(400).send({
+        error: 'status is required',
+      });
+    }
+    if (status !== 'approved' && status !== 'rejected') {
+     return res.status(400).send({
+       error: 'status can only be approved or rejected',
+     });
+   }
+    const id = parseInt(req.params.loanId);
+    pool.query('SELECT id, status FROM loans WHERE id = $1', [id], (error, results) => {
+      if (!results.rows[0]) {
+        return res.status(400).send(
+          Message.errorMessage(400, 'loan id is not in the database'),
+        );
+      }
+      if (results.rows[0].status === 'approved') {
+        return res.status(400).send(
+          Message.errorMessage(400, 'Loan as already being approved'),
+        );
+      }
+      if (results.rows[0].status === 'rejected') {
+        return res.status(400).send(
+          Message.errorMessage(400, 'Loan as already being rejected'),
+        );
+      }
+      return next();
+    });
+  },
+  };
+  export default dbvalidate;
