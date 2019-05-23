@@ -21,6 +21,7 @@ loanRouter.route('/api/v1/loans').get(validateQuery, verifyAdmin, getLoans);
 loanRouter.route('/api/v1/loans/:loanId/repayments').get(verifyToken, verifyId, getRepaymentById);
 loanRouter.route('/api/v1/loans').post(verifyToken, verifyFields, create);
 loanRouter.route('/api/v1/loans/:loanId').patch(verifyAdmin, verifyStatus, approve);
+loanRouter.route('/api/v1/loans/:loanId/repayment').post(verifyAdmin, verifyAmount, repayment);
 
 
 export default loanRouter;
