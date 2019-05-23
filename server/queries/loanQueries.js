@@ -36,5 +36,17 @@ const loans = {
       });
     }
   },
+  getRepaymentById(req, res) {
+    const { loanId } = req.params;
+    pool.query('SELECT * FROM repayments WHERE loanid = $1', [loanId], (error, results) => {
+      if (error) {
+        throw error
+      }
+      return res.status(200).send({
+        status: 200,
+        data: results.rows[0],
+      });
+    });
+  },
 };
 export default loans;

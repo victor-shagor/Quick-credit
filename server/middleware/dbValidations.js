@@ -156,5 +156,16 @@ const dbvalidate = {
       return next();
     });
   },
+  verifyId(req, res, next) {
+    const { loanId } = req.params;
+    pool.query('SELECT loanid FROM repayments WHERE loanid = $1', [loanId], (error, results) => {
+      if (!results.rows[0]) {
+        return res.status(404).send(
+          Message.errorMessage(404, 'loan id is not in the database'),
+        );
+      }
+      return next();
+    });
+  },
 };
 export default dbvalidate;
