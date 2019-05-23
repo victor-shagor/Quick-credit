@@ -79,5 +79,16 @@ const loans = {
       });
     });
   },
+  approve(req, res) {
+    const { status } = req.body;
+    const id = parseInt(req.params.loanId);
+    pool.query('UPDATE loans SET status = $1 WHERE id = $2', [status, id], (error, result) => {
+      pool.query('SELECT * FROM loans WHERE id = $1', [id], (error, results) => {
+        return res.status(200).send({
+          status: 200, data: results.rows[0],
+        });
+      });
+    });
+  },
 };
 export default loans;

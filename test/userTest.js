@@ -260,7 +260,7 @@ describe('users', () => {
     chai.request(app)
       .post('/api/v1/loans')
       .send({
-        email: 'codemuse@gmail.com', tenor: '3', amount: '50000',
+        email: 'jesuseun@gmail.com', tenor: '3', amount: '50000',
       })
       .set({
         'x-access-token': token1,
@@ -269,10 +269,10 @@ describe('users', () => {
         res.should.have.status(201);
         res.body.should.be.a('object');
         res.body.should.have.property('data');
-        res.body.data.should.have.property('firstName');
-        res.body.data.should.have.property('lastName');
+        res.body.data.should.have.property('firstname');
+        res.body.data.should.have.property('lastname');
         res.body.data.should.have.property('email');
-        res.body.data.should.have.property('loanId');
+        res.body.data.should.have.property('loanid');
         res.body.data.should.have.property('amount');
         res.body.data.should.have.property('status');
         res.body.data.should.have.property('balance');
