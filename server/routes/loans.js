@@ -19,6 +19,7 @@ const { verifyToken, verifyAdmin } = Auth;
 loanRouter.route('/api/v1/loans/:id').get(verifyAdmin, verifyLoanId, getLoanById);
 loanRouter.route('/api/v1/loans').get(validateQuery, verifyAdmin, getLoans);
 loanRouter.route('/api/v1/loans/:loanId/repayments').get(verifyToken, verifyId, getRepaymentById);
+loanRouter.route('/api/v1/loans').post(verifyToken, verifyFields, create);
 
 
 export default loanRouter;

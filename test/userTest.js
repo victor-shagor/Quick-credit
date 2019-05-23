@@ -159,7 +159,7 @@ describe('users', () => {
    });
    it('should get loan by id', (done) => {
     chai.request(app)
-      .get('/api/v1/loans/4')
+      .get('/api/v1/loans/1')
       .set({
         'x-access-token': token,
       })
@@ -253,6 +253,61 @@ describe('users', () => {
         res.body.data.should.have.property('amount');
         res.body.data.should.have.property('paidamount');
         res.body.data.should.have.property('balance');
+        done();
+      });
+  });
+  it('should create a loan application', (done) => {
+    chai.request(app)
+      .post('/api/v1/loans')
+      .send({
+        email: 'codemuse@gmail.com', tenor: '3', amount: '50000',
+      })
+      .set({
+        'x-access-token': token1,
+      })
+      .end((err, res) => {
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        res.body.data.should.have.property('firstName');
+        res.body.data.should.have.property('lastName');
+        res.body.data.should.have.property('email');
+        res.body.data.should.have.property('loanId');
+        res.body.data.should.have.property('amount');
+        res.body.data.should.have.property('status');
+        res.body.data.should.have.property('balance');
+        done();
+      });
+  });
+  it('should not be to create a loan application a valid email', (done) => {
+    chai.request(app)
+      .post('/api/v1/loans')
+      .send({
+        email: 'com', tenor: 3, amount: 50000,
+      })
+      .set({ 'x-access-token': token1 })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('please enter a valid email address');
+        done();
+      });
+  });
+  it('should not be to create a loan application without tenor', (done) => {
+    chai.request(app)
+      .post('/api/v1/loans')
+      .send({
+       email: 'ojo@gmail.com', tenor: '', amount: '50000',
+      })
+      .set({
+        'x-access-token': token1,
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error');
+        res.body.error.should.equal('tenor and/or amount cannot be empty and must cotain a number, tenor cannot be more than 12');
         done();
       });
   });

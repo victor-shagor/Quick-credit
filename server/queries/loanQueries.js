@@ -40,11 +40,42 @@ const loans = {
     const { loanId } = req.params;
     pool.query('SELECT * FROM repayments WHERE loanid = $1', [loanId], (error, results) => {
       if (error) {
-        throw error
+        throw error;
       }
       return res.status(200).send({
         status: 200,
         data: results.rows[0],
+      });
+    });
+  },
+  create(req, res) {
+    const amount = parseInt(req.body.amount);
+    const tenor = parseInt(req.body.tenor);
+    const interest = amount * (5 / 100);
+    const balance = amount + interest;
+    const paymentInstallmant = (amount + interest) / tenor;
+    const { email } = req.body;
+    const createdOn = new Date();
+    pool.query('SELECT email, firstname, lastname, address FROM users WHERE email = $1', [email], (error, results) => {
+      const { firstname, lastname, address } = results.rows[0];
+      pool.query('INSERT INTO loans (firstname, lastname, email, address, tenor, amount, paymentInstallment, balance, interest, repaid, status, created_on) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)', [firstname, lastname, email, address, tenor, amount, paymentInstallmant, balance, interest, false, 'pending', createdOn], (error, results) => {
+        const data = {
+          firstname,
+          lastname,
+          address,
+          email,
+          tenor,
+          amount,
+          paymentInstallmant,
+          status: 'pending',
+          repaid: false,
+          balance,
+          interest,
+        };
+        res.status(201).send({
+          status: 201,
+          data,
+        });
       });
     });
   },

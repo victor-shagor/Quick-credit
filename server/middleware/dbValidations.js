@@ -127,7 +127,7 @@ const dbvalidate = {
   },
   verifyLoanId(req, res, next) {
     const { id } = req.params;
-    pool.query('SELECT * FROM loans WHERE id = $1', [id], (error, results) => {
+    pool.query('SELECT id, status FROM loans WHERE id = $1', [id], (error, results) => {
       if (!results.rows[0] || results.rows[0].status !== 'pending') {
         return res.status(404).send({
           status: 404,
@@ -162,6 +162,43 @@ const dbvalidate = {
       if (!results.rows[0]) {
         return res.status(404).send(
           Message.errorMessage(404, 'loan id is not in the database'),
+        );
+      }
+      return next();
+    });
+  },
+  verifyFields(req, res, next) {
+    const requiredFields = ['email', 'tenor', 'amount'];
+    const missingFields = [];
+    requiredFields.forEach((fields) => {
+      if (req.body[fields] === undefined) {
+        missingFields.push(fields);
+      }
+    });
+    if (missingFields.length !== 0) {
+      return res.status(400).send(
+        Message.errorMessage(400, `The following field(s) is/are required (${missingFields})`),
+      );
+    }
+    const { email, tenor, amount } = req.body;
+    if (!validator.isEmail(email)) {
+      return res.status(400).send(
+        Message.errorMessage(400, 'please enter a valid email address'),
+      );
+    }
+    if (validator.isEmpty(tenor) || validator.isEmpty(amount) || !validator.isNumeric(tenor)
+        || !validator.isNumeric(amount) || tenor > 12) {
+      return res.status(400).send(
+        Message.errorMessage(400, 'tenor and/or amount cannot be empty and must cotain a number, tenor cannot be more than 12'),
+      );
+    }
+    pool.query('SELECT email, status, repaid FROM loans WHERE email = $1', [email], (error, results) => {
+      if (!results.rows[0]) {
+        return next();
+      }
+      if (results.rows[0].status === 'pending' || results.rows[0].repaid === false) {
+        return res.status(400).send(
+          Message.errorMessage(400, 'This user already as a pending loan or a running loan'),
         );
       }
       return next();
