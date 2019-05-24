@@ -24,7 +24,10 @@ const loans = {
         if (error) {
           throw error;
         }
-        return res.status(200).send({ data: results.rows });
+        return res.status(200).send({ 
+          status: 200,
+          data: results.rows, 
+        });
       });
     }
     if (!status || !repaid) {
@@ -32,7 +35,10 @@ const loans = {
         if (error) {
           throw error;
         }
-        return res.status(200).send({ data: results.rows });
+        return res.status(200).send({ 
+          status: 200,
+          data: results.rows, 
+        });
       });
     }
   },

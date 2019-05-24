@@ -18,8 +18,9 @@ const users = {
     const modifiedOn = new Date();
     const isAdmin = false;
     const status = 'unverified';
+    const token = helper.generateToken({ isAdmin, email });
     const data = {
-      firstName, lastName, email, address, status, createdOn,
+      firstName, lastName, email, address, status, createdOn, token,
     };
 
     pool.query('INSERT INTO users (firstname, lastname, email, password, address, status, is_admin, created_on, modified_on) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)', [firstName, lastName, email, password, address, status, isAdmin, createdOn, modifiedOn], (error, results) => {
