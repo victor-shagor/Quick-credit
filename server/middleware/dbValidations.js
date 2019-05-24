@@ -128,8 +128,8 @@ const dbvalidate = {
   verifyLoanId(req, res, next) {
     const { id } = req.params;
     if(!validator.isNumeric(id)){
-      return res.status(404).send({
-        status: 404,
+      return res.status(400).send({
+        status: 400,
         error: 'id can only be a number',
       });
     }
