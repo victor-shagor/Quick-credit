@@ -204,12 +204,16 @@ const dbvalidate = {
         Message.errorMessage(400, 'tenor and/or amount cannot be empty and must cotain a number, tenor cannot be more than 12'),
       );
     }
+    pool.query('SELECT email FROM users WHERE email = $1', [email], (error, results) => {
+      if (!results.rows[0]) {
+        res.status(404).send({
+          status: 404,
+          error: 'email not found',
+        })
+      }
     pool.query('SELECT email, status, repaid FROM loans WHERE email = $1', [email], (error, results) => {
       if (!results.rows[0]) {
-        return res.status(404).send({
-          status: 404,
-          error: 'Email not found',
-        })
+        return next();
       }
       if (results.rows[0].status === 'pending' || results.rows[0].repaid === false) {
         return res.status(400).send(
@@ -218,6 +222,7 @@ const dbvalidate = {
       }
       return next();
     });
+  });
   },
   verifyStatus(req, res, next) {
     const { status } = req.body;

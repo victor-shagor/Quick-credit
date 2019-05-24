@@ -13,7 +13,7 @@ app.get('/', (req, res) => res.status(200).send({ message: 'Welcome to quick cre
 app.use('*', (req, res) => res.send({ message: 'route not found' }));
 
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Listening from port ${port}`);
 });
