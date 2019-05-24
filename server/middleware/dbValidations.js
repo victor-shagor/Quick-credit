@@ -206,7 +206,10 @@ const dbvalidate = {
     }
     pool.query('SELECT email, status, repaid FROM loans WHERE email = $1', [email], (error, results) => {
       if (!results.rows[0]) {
-        return next();
+        return res.status(404).send({
+          status: 404,
+          error: 'Email not found',
+        })
       }
       if (results.rows[0].status === 'pending' || results.rows[0].repaid === false) {
         return res.status(400).send(
