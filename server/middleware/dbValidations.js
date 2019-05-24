@@ -207,14 +207,14 @@ const dbvalidate = {
   verifyStatus(req, res, next) {
     const { status } = req.body;
     if (!status || status === undefined) {
-      return res.status(400).send({
-        error: 'status is required',
-      });
+      return res.status(400).send(
+        Message.errorMessage( 400,'status is required'),
+      );
     }
     if (status !== 'approved' && status !== 'rejected') {
-      return res.status(400).send({
-        error: 'status can only be approved or rejected',
-      });
+      return res.status(400).send(
+        Message.errorMessage( 400,'status can only be approved or rejected'),
+      );
     }
     const id = parseInt(req.params.loanId);
     pool.query('SELECT id, status FROM loans WHERE id = $1', [id], (error, results) => {
