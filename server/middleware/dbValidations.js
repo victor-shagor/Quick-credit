@@ -207,15 +207,15 @@ const dbvalidate = {
   verifyStatus(req, res, next) {
     const { status } = req.body;
     if (!status || status === undefined) {
-      return res.status(400).send({
-        error: 'status is required',
-      });
+      return res.status(400).send(
+        Message.errorMessage( 400,'status is required'),
+      );
     }
     if (status !== 'approved' && status !== 'rejected') {
-     return res.status(400).send({
-       error: 'status can only be approved or rejected',
-     });
-   }
+      return res.status(400).send(
+        Message.errorMessage( 400,'status can only be approved or rejected'),
+      );
+    }
     const id = parseInt(req.params.loanId);
     pool.query('SELECT id, status FROM loans WHERE id = $1', [id], (error, results) => {
       if (!results.rows[0]) {
@@ -236,5 +236,36 @@ const dbvalidate = {
       return next();
     });
   },
-  };
-  export default dbvalidate;
+  verifyAmount(req, res, next) {
+    const { paidAmount } = req.body;
+    if (req.body.paidAmount === undefined || !validator.isNumeric(req.body.paidAmount)
+      || validator.isEmpty(req.body.paidAmount)) {
+      return res.status(400).send(
+        Message.errorMessage(400, 'paidAmount is required and it can only be an amount'),
+      );
+    }
+    const id = parseInt(req.params.loanId);
+    pool.query('SELECT id, email, balance, repaid, status FROM loans WHERE id = $1', [id], (error, results) => {
+      if(error){
+        throw error
+      }
+      if (!results.rows[0]) {
+        return res.status(404).send(
+          Message.errorMessage(404, 'loanId is not found'),
+        );
+      }
+      if (results.rows[0].repaid === true || results.rows[0].status === 'pending') {
+        return res.status(400).send(
+          Message.errorMessage(400, 'you cannot make payment for a pending loan or a repaid loan'),
+        );
+      }
+      if (paidAmount > results.rows[0].balance) {
+        return res.status(400).send(
+          Message.errorMessage(400, 'PaidAmount cannot be more than the loan balance'),
+        );
+      }
+      return next();
+    });
+  },
+};
+export default dbvalidate;

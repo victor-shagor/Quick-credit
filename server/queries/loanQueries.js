@@ -24,7 +24,10 @@ const loans = {
         if (error) {
           throw error;
         }
-        return res.status(200).send({ data: results.rows });
+        return res.status(200).send({ 
+          status: 200,
+          data: results.rows, 
+        });
       });
     }
     if (!status || !repaid) {
@@ -32,7 +35,10 @@ const loans = {
         if (error) {
           throw error;
         }
-        return res.status(200).send({ data: results.rows });
+        return res.status(200).send({ 
+          status: 200,
+          data: results.rows, 
+        });
       });
     }
   },
@@ -90,5 +96,31 @@ const loans = {
       });
     });
   },
+  repayment(req, res) {
+    const { loanId } = req.params;
+    const paidAmount = parseInt(req.body.paidAmount);
+    pool.query('SELECT id, amount, paymentinstallment, balance FROM loans WHERE id = $1', [loanId], (error, results) => {
+      const { id, amount, paymentinstallment, balance } = results.rows[0];
+      const bal = balance - paidAmount;
+      pool.query('INSERT INTO repayments (loanid, createdOn, amount, paymentInstallment, paidAmount balance) VALUES ($1, $2, $3, $4, $5, $6)', [id, new Date(), amount, paymentinstallment, paidAmount, bal], (error, result) => {
+      
+      pool.query('UPDATE loans SET balance = $1 WHERE id =$2', [bal, loanId], (error, balace) => {
+       const data = {
+          loanId: id,
+          createdOn: new Date(),
+          amount,
+          monthlyInstallment: paymentinstallment,
+          paidAmount,
+          balance: bal,
+        };
+        pool.query('UPDATE loans SET repaid = $1 WHERE balance =$2', [true, 0], (error, balac) => {})
+        return res.status(201).send({
+          status: 201,
+          data,
+        });
+       });
+      });
+    });
+   },
 };
 export default loans;
