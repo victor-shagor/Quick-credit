@@ -128,8 +128,8 @@ const dbvalidate = {
   verifyLoanId(req, res, next) {
     const { id } = req.params;
     if(!validator.isNumeric(id)){
-      return res.status(404).send({
-        status: 404,
+      return res.status(400).send({
+        status: 400,
         error: 'id can only be a number',
       });
     }
@@ -164,6 +164,12 @@ const dbvalidate = {
   },
   verifyId(req, res, next) {
     const { loanId } = req.params;
+    if(!validator.isNumeric(loanId)){
+      return res.status(400).send({
+        status: 400,
+        error: 'loanId can only be a number',
+      });
+    }
     pool.query('SELECT loanid FROM repayments WHERE loanid = $1', [loanId], (error, results) => {
       if (!results.rows[0]) {
         return res.status(404).send(
@@ -223,6 +229,12 @@ const dbvalidate = {
       );
     }
     const id = parseInt(req.params.loanId);
+    if(!validator.isNumeric(id)){
+      return res.status(400).send({
+        status: 400,
+        error: 'loanId can only be a number',
+      });
+    }
     pool.query('SELECT id, status FROM loans WHERE id = $1', [id], (error, results) => {
       if (!results.rows[0]) {
         return res.status(400).send(
