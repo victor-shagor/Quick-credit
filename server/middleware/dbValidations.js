@@ -128,10 +128,16 @@ const dbvalidate = {
   verifyLoanId(req, res, next) {
     const { id } = req.params;
     pool.query('SELECT id, status FROM loans WHERE id = $1', [id], (error, results) => {
+      if(!validator.isNumeric(id)){
+        return res.status(404).send({
+          status: 404,
+          error: 'id can only be a number',
+        });
+      }
       if (!results.rows[0] || results.rows[0].status !== 'pending') {
         return res.status(404).send({
           status: 404,
-          error: 'id is not in the database or id is not for a loan application',
+          error: 'id is not found',
         });
       }
       return next();
